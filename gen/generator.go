@@ -1,0 +1,85 @@
+package main
+
+import (
+	"log"
+	"os"
+	"strings"
+	"text/template"
+)
+
+var tmpl *template.Template
+var types = []string{
+	"int", "int8", "int16", "int32", "int64",
+	"uint", "uint8", "uint16", "uint32", "uint64",
+}
+
+func init() {
+	var err error
+	tmpl, err = template.New("tmpl").Parse(`package incremental
+
+import (
+	"sync"
+)
+
+type {{.Upper}} struct {
+	increment {{.Lower}}
+	lock      sync.Mutex
+}
+
+// Next returns the following 
+func (i *{{.Upper}}) Next() {{.Lower}} {
+	i.lock.Lock()
+	defer i.lock.Unlock()
+	i.increment++
+	return i.increment
+}
+
+func (i *{{.Upper}}) Last() {{.Lower}} {
+	return i.increment
+}
+`)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+type data struct {
+	Upper string
+	Lower string
+}
+
+func main() {
+	// loop over integer types
+	for _, t := range types {
+		// create file for type
+		file, err := os.Create(t + ".go")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+
+		// create data with upper and lower names for the type
+		d := &data{
+			Upper: strings.ToUpper(t[0:1]) + t[1:],
+			Lower: t,
+		}
+
+		// execute template, write directly to file
+		err = tmpl.Execute(file, d)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	// create doc.go
+	file, err := os.Create("doc.go")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	file.WriteString(`
+// package incremental provides concurency-safe incremental numbers.
+//
+// This package was created by a simple piece of code located in the gen subdirectory. Please modify that command if you want to modify this package.
+package incremental`)
+}
