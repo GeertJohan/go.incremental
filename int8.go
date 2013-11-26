@@ -21,3 +21,10 @@ func (i *Int8) Next() int8 {
 func (i *Int8) Last() int8 {
 	return i.increment
 }
+
+// Set changes the increment to given value, the succeeding call to Next() will return the given value+1
+func (i *Int8) Set(value int8) {
+	i.lock.Lock()
+	defer i.lock.Unlock()
+	i.increment = value
+}

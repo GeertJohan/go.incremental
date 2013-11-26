@@ -38,6 +38,13 @@ func (i *{{.Upper}}) Next() {{.Lower}} {
 func (i *{{.Upper}}) Last() {{.Lower}} {
 	return i.increment
 }
+
+// Set changes the increment to given value, the succeeding call to Next() will return the given value+1
+func (i *{{.Upper}}) Set(value {{.Lower}}) {
+	i.lock.Lock()
+	defer i.lock.Unlock()
+	i.increment = value
+}
 `)
 	if err != nil {
 		log.Fatal(err)
