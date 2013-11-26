@@ -26,7 +26,7 @@ type {{.Upper}} struct {
 	lock      sync.Mutex
 }
 
-// Next returns the following 
+// Next returns with an integer that is exactly one higher as the previous call to Next() for this {{.Upper}}
 func (i *{{.Upper}}) Next() {{.Lower}} {
 	i.lock.Lock()
 	defer i.lock.Unlock()
@@ -34,6 +34,7 @@ func (i *{{.Upper}}) Next() {{.Lower}} {
 	return i.increment
 }
 
+// Last returns the number ({{.Lower}}) that was returned by the most recent call to this instance's Next()
 func (i *{{.Upper}}) Last() {{.Lower}} {
 	return i.increment
 }
