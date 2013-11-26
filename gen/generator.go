@@ -40,7 +40,7 @@ func (i *{{.Upper}}) Last() {{.Lower}} {
 }
 
 // Set changes the increment to given value, the succeeding call to Next() will return the given value+1
-func (i *{{.Upper}}) Set(value {{.Lower}}) {
+func (i *{{.Upper}}) SetValue(value {{.Lower}}) {
 	i.lock.Lock()
 	defer i.lock.Unlock()
 	i.increment = value
