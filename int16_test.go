@@ -4,12 +4,12 @@ import (
 	"testing"
 )
 
-type someIntStruct struct {
-	i Int
+type someInt16Struct struct {
+	i Int16
 }
 
-func TestIntPtr(t *testing.T) {
-	i := &Int{}
+func TestInt16Ptr(t *testing.T) {
+	i := &Int16{}
 	num := i.Next()
 	if num != 1 {
 		t.Fatal("expected 1, got %d", num)
@@ -34,8 +34,8 @@ func TestIntPtr(t *testing.T) {
 	}
 }
 
-func TestIntAsField(t *testing.T) {
-	s := someIntStruct{}
+func TestInt16AsField(t *testing.T) {
+	s := someInt16Struct{}
 	num := s.i.Next()
 	if num != 1 {
 		t.Fatal("expected 1, got %d", num)
@@ -49,7 +49,7 @@ func TestIntAsField(t *testing.T) {
 		t.Fatal("expected last to be 2, got %d", num)
 	}
 
-	useSomeIntStruct(&s, t)
+	useSomeInt16Struct(&s, t)
 
 	num = s.i.Last()
 	if num != 3 {
@@ -67,7 +67,7 @@ func TestIntAsField(t *testing.T) {
 	}
 }
 
-func useSomeIntStruct(s *someIntStruct, t *testing.T) {
+func useSomeInt16Struct(s *someInt16Struct, t *testing.T) {
 	num := s.i.Next()
 	if num != 3 {
 		t.Fatal("expected 3, got %d", num)
