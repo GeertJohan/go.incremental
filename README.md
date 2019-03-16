@@ -1,6 +1,8 @@
 ## go.incremental
-[![Build Status](https://drone.io/github.com/GeertJohan/go.incremental/status.png)](https://drone.io/github.com/GeertJohan/go.incremental/latest)
-Go package incremental provides typed incremental counters that are type-safe.
+
+[![](https://godoc.org/github.com/GeertJohan/go.incremental?status.svg)](http://godoc.org/github.com/GeertJohan/go.incremental)
+
+Go package incremental provides typed incremental counters that are concurrency-safe.
 
 ### Install
 `go get github.com/GeertJohan/go.incremental`
